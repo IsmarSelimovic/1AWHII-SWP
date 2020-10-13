@@ -3,4 +3,8 @@ h1 {
     /*Kleinbuchstaben als Großbuchstaben darstellen */
     font-variant: small-caps;
     /*Schriftfarbe ändern */
+    color: rgb(32, 136, 101);
+}
+p {
+    color: white;
 }
