@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Freundestabelle</title>
+        <link rel="stylesheet" href="style1.css" />
+    </head>
+    <body>
+        <h1>Meine Freunde</h1>
+        <form>
+            <label>
+                Vorname:
+                <input type="text" name="firstName" placeholder="Vorname des Freundes">
+            </label>
+        <br>
+        <br>
+            <label>
+                Nachname:
+                <input type="text" name="lastName" placeholder="Nachname des Freundes">
+            </label>
+        <br>
+        <br>
+            <label>
+                Geburtsdatum:
+                <input type="date" name="birthday">
+            </label>
+        <br>
+        <br>
+            <label>
+                Geschlecht:
+            </label>
+                <label><input type="radio" name="gender" value="Männlich">Männlich </label>  
+                <label><input type="radio" name="gender" value="Männlich"> Weiblich</label>
+                <label><input type="radio" checked name="gender" value="Männlich"> Divers</label>
+        <br>
+        <br>  
+            <label>
+                Hobbies:
+            </label>
+                <label><input type="checkbox" name="hobbies">Videospiele</label>
+                <label><input type="checkbox" name="hobbies">Sport: (Basketball,Icehokey, Schwimmen, ...)</label>
+                <label><input type="checkbox" name="hobbies">Tricks: (Balisong, Jonglieren, Trampolin, ...)</label>
+                <label><input type="checkbox" name="hobbies">Andere</label>
+        <br>
+        <br>
+            <label>
+                Lieblingsfach:
+            </label>
+                <select><option>--Bitte auswählen--</option><option>SWP</option><option>Mathe</option><option>Deutsch</option><option>Englisch</option>
+                <option>Sport</option><option>Physik</option><option>Chemie</option><option>MT</option><option>INFI</option>
+                <option>Biologie</option><option>Geographie</option><option>GZ/KU</option></select>
+        <br>
+        <br>
+            <label>
+                Bemerkung:
+                <textarea name="Info" cols="70" rows="1" placeholder="Zusatztinformation zum Freund"></textarea>
+            </label>
+        <br>
+        <br>
+            <label>
+                Lieblingsfarbe:
+                <input type="color">
+            </label>
+        <br>
+        <br>
+            <label>
+                <input type="submit" value="Freund hinzufügen">
+            </label>
+        <br>
+        <br>
+        <br>
+        </form>
+
+        <table>
+            <thead> <!--Kopfzeilenbereich-->
+                <tr> <!--TAbellenzeile-->
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Spitzname</th>
+                    <th>Geburtsdatum</th>
+                    <th>Hobbies</th>
+                    <th>Lieblingsfach</th>
+                </tr>
+
+                <tr> 
+                    <td>Wolfgang</td> <!--Datenspalte-->
+                    <td>Smolinski</td>
+                    <td>Wolfi</td>
+                    <td>2005</td>
+                    <td>Videospiele, Balisong, "Tech"</td>
+                    <td></td>
+                </tr>
+
+                <tr> 
+                    <td>Leon</td> <!--Datenspalte-->
+                    <td>Reja</td>
+                    <td>Lio</td>
+                    <td>2005</td>
+                    <td>Videospiele, "Tech"</td>
+                    <td></td>
+                </tr>
+            
+                <tr> 
+                    <td>Simon</td> <!--Datenspalte-->
+                    <td>Moser</td>
+                    <td>Zimpde</td>
+                    <td>2005</td>
+                    <td>Videospiele, BAD</td>
+                    <td></td>
+                </tr>
+
+                <tr> 
+                    <td>Paul</td> <!--Datenspalte-->
+                    <td>Harringer</td>
+                    <td>Pauli</td>
+                    <td>2010</td>
+                    <td>Videospiele, Social Media, "Trampolin"</td>
+                    <td></td>
+                </tr>
+
+                <tr> 
+                    <td>Tobias</td> <!--Datenspalte-->
+                    <td>Tatschel</td>
+                    <td>Tobi</td>
+                    <td>2010</td>
+                    <td>Videospiele, Nerf, Icehokey</td>
+                    <td></td>
+                </tr>
+
+            </thead>
+        </table>
+        
+        <script>
+            let form = document.querySelector("form")
+            form.onsubmit = event =>
+            {
+                // alert("Formular wird abgesendet")
+                event.preventDefault()
+        
+                try
+                {
+                    let getInput = name =>
+                    {
+                        let element = document.querySelector(`[name=${name}]`)
+                        if (!element)
+                        {
+                            throw `Kein Eingabefeld mit dem Namen '${name}' gefunden.`
+                        }
+                        return element
+                    }
+                    let getInputs = name =>
+                    {
+                        let elements = Array.from(document.querySelectorAll(`[name=${name}]`))
+                        if (!elements.length)
+                        {
+                            throw `Kein Eingabefeld mit dem Namen '${name}' gefunden.`
+                        }
+                        return elements
+                    }
+                    let getInputValue = name => getInput(name).value
+                    let getRadioButtonValue = name =>
+                    {
+                        let checkedElements = getInputs(name).filter(e => e.checked)
+                        if (!checkedElements.length)
+                        {
+                            throw `Für Eingabefeld '${name}' muss es eine Auswahl geben (Standardauswahl mit Attribut 'checked' festlegen).`
+                        }
+                        return checkedElements[0].value
+                    }
+                    let getCheckboxValues = name => getInputs(name).filter(e => e.checked).map(e => e.value)
+                    let getComboboxValue = name =>
+                    {
+                        let element = getInput(name).querySelector("option:not(:first-of-type):checked")
+                        return element ? element.value : ""
+                    }
+        
+                    let firstName = getInputValue("firstName")
+                    let lastName = getInputValue("lastName")
+                    let birthday = getInputValue("birthday")
+                    let gender = getRadioButtonValue("gender")
+                    let hobbies = getCheckboxValues("hobbies")
+                    let favoriteSchoolSubject = getComboboxValue("favoriteSchoolSubject")
+                    let info = getInputValue("info")
+                    let favoriteColor = getInputValue("favoriteColor")
+        
+                    if (!firstName || !lastName)
+                    {
+                        alert("Vorname und Nachname bitte ausfüllen.")
+                        return
+                    }
+        
+                    console.log(`Adding friend: FirstName = ${firstName}, LastName = ${lastName}, Birthday = ${birthday}, Gender = ${gender}, Hobbies = ${hobbies.join(", ")}, Favorite school subject = ${favoriteSchoolSubject}, Info = ${info}, FavoriteColor = ${favoriteColor}`)
+        
+                    let tableBody = document.querySelector("table tbody")
+                    let row = document.createElement("tr")
+                    
+                    let addCell = text =>
+                    {
+                        let cell = document.createElement("td")
+                        cell.innerText = text
+                        return row.appendChild(cell)
+                    }
+        
+                    addCell(firstName)
+                    addCell(lastName)
+                    addCell(birthday || "N/A")
+                    addCell(gender)
+                    addCell(hobbies.join(", ") || "-")
+                    addCell(favoriteSchoolSubject || "-")
+                    addCell(info || "-")
+                    let favoriteColorCell = addCell("")
+                    favoriteColorCell.style.background = favoriteColor
+        
+                    tableBody.appendChild(row)
+                    
+                    form.reset()
+                }
+                catch (e)
+                {
+                    alert(`FEHLER: ${e}`)
+                }
+            }
+        </script>
+        </body>
+</html>
